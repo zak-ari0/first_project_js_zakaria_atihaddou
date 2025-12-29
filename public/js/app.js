@@ -246,3 +246,21 @@ function login() {
 //             - Ability to view the entire transaction history.
 
 
+while (true) {
+  let choice = prompt("ACCOUT MANAGMENT: signup, login, changepass, exit").toLowerCase();
+  if (choice === "exit") break;
+  if (choice === "signup") signUp();
+  if (choice === "login") login();
+  if (choice === "changepass") {
+    let email = prompt("Enter your email:").toLowerCase();
+    let user = users.find(u => u.email === email);
+    if (user) {
+      let newPass = prompt("Enter new password:");
+      if (validationOfPassword(newPass) === "password is valid") {
+        user.password = newPass;
+        alert("Password updated!");
+      } else alert("Invalid password format.");
+    } else alert("Email not found.");
+  }
+}
+console.log(users);
