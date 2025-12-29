@@ -110,8 +110,6 @@ if (age.length >= 3) {
 }
 return "age is valid"
 }
-console.log(validationOfAge('19'));
-
 //             # Password:
 function validationOfPassword(passwordInput) {
     //             - Check for leading or trailing spaces.
@@ -150,7 +148,55 @@ function confirmPassword(validationOfPassword, secondPassInput) {
     }
 }
 
-
+function signUp() {
+    let enterName = prompt("Enter Your FullName You can exit");
+    if (enterName == "exit")return ;
+    let name = validationOfName(enterName);
+    while (name.includes("too short") || name.includes("not allowed")) {
+        alert(name);
+        enterName = prompt("invalid name, try Again: ");
+        if (enterName === "exit" || enterName === null)return;
+        name = validationOfName(enterName)
+    }
+    let enterEmail = prompt("Enter Email You can exit ")
+    if (enterEmail === "exit" || enterEmail === null)return;
+    let email = validationOfEmail(enterEmail);
+    while (typeof email === "string" && (email.includes("fewer"))) {
+        alert(email);
+        enterEmail = prompt("invalid or used email, try again");
+        if (enterEmail === "exit" || enterEmail === null) return ;
+        email = validationOfEmail(enterEmail)
+    }
+    let age = prompt("Enter Age: ");
+    while (validationOfAge(age) !== "age is valid") {
+        alert(validationOfAge(age))
+        age = prompt("invalid age Try again: ")
+    }
+    let password = prompt( "create password: ");
+    while (validationOfPassword(password) !== "password is valid") {
+        alert(validationOfPassword(password));
+        password = prompt("invalid password, try again: ");
+    }
+    let confirm = prompt("Confirm password : ");
+    if (confirmPassword(password, confirm) !== "password confirmed"){
+        alert("password not matched")
+        return;
+    }
+    users.push({
+        name, 
+        email,
+        age,
+        password : password ,
+        balance: 0,
+        loan: 0,
+        loanToPay: 0,
+        investment: 0,
+        investmentProfit: 0,
+        history: []
+    });
+    alert("signUp successful ")
+};
+console.log(users);
 
 //         * If the user chooses to log in, here are the details they must enter:
 //             # Email:
@@ -158,6 +204,22 @@ function confirmPassword(validationOfPassword, secondPassInput) {
 
 //             # Password:
 //             - Check if the entered password is associated with the previously entered email.
+function login() {
+    let email = prompt("Enter Your email:");
+    let user = users.find(u => u.email === email);
+    if (!user){
+        alert("Email not found.");
+        return;
+    }
+
+    let pass = prompt("enter Your password: ")
+    if (user.password === pass) {
+        currentUser = user; 
+        alert("Welcome back, " + user.name)
+    } else {
+        alert("incorrect password.");
+    }
+}
 
 //         * If the user chooses to change the password:
 //             - They must enter their existing Email in the Database.
@@ -182,3 +244,5 @@ function confirmPassword(validationOfPassword, secondPassInput) {
 
 //             # History:
 //             - Ability to view the entire transaction history.
+
+
